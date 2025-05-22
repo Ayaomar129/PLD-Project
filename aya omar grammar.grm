@@ -1,0 +1,45 @@
+"Start Symbol"=<Program>
+              
+Identifier    = {Letter} {AlphaNumeric}*
+Digit='-'?{digit}+('.'{digit}+)?
+Whitespace    = ' ' + '\t'
+NewLine       = '\r' + '\n' + '\r\n'
+
+
+<Program>::=<Stmts>
+
+<Stmts>::=<the_Stmt>
+        |<the_Stmt><Stmts>
+
+<the_Stmt>::=<Operation>
+           |<Condition_Stmt>
+           |<For_Stmt>
+
+<Operation>::= <Var>'='<Opr> ';'
+            
+<Var>::=Identifier
+      
+<Opr>::= <First_operand>'+'<Sec_Operand>
+      |<First_operand>'-'<Sec_Operand>
+      |<First_operand>'*'<Sec_Operand>
+      |<First_operand>'/'<Sec_Operand>
+      
+<First_operand> ::= Identifier | Digit
+<Sec_Operand>   ::= Identifier | Digit
+
+<Condition_Stmt> ::= 'if' <cond> '{' <the_Stmt> '}'
+                  | 'if' <cond> '{' <the_Stmt> '}' 'else' <the_Stmt>
+
+<cond> ::= <exp><op><exp>
+<op>::= '<' | '>' | '==' | '!='
+
+<exp>::='('<exp>')'
+         |Identifier
+         |Digit
+         
+<For_Stmt>::= 'for'   <Operation> ',' <cond> ',' <step> ':' '{' <the_Stmt> '}'
+<step>::= '--'Identifier
+       |Identifier'--'
+       |'++'Identifier
+       |Identifier'++'
+       |<Operation>
